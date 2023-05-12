@@ -5,7 +5,6 @@ import axios from "axios";
 export const Advice = () => {
   const [quote, setQuote] = useState<string>("");
   const [loader, setLoader] = useState(true);
-  const [isBtnDisable, setisBtnDisable] = useState(true);
 
   const Fetcher = useMemo(() => {
     return quote ? `${quote}` : "no Quote";
@@ -23,17 +22,15 @@ export const Advice = () => {
   };
   useEffect(() => {
     const timer = setTimeout(() => {
-      setisBtnDisable(false);
+      setLoader(false);
     }, 5000);
-    if (loader) {
-      setLoader(true);
-    }
+
     handleFetch();
 
     return () => {
       clearTimeout(timer);
     };
-  }, [quote, loader]);
+  }, [quote]);
 
   return (
     <div>
@@ -68,7 +65,6 @@ export const Advice = () => {
           <div className="relative w-full mx-auto bg-red-500">
             <div className="h-[4vh] w-full  absolute  -top-[.6rem]">
               <button
-                disabled={isBtnDisable}
                 onClick={() => handleFetch()}
                 className="left-0 right-0 w-[7vh] h-[7vh] cursor-pointer mx-auto bg-[hsl(150_100%_66%)] transition-all hover:shadow-[0_0_15px_3px] hover:shadow-[hsl(159_100%_64%)] rounded-full"
               >
