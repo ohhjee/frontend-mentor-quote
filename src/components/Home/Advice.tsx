@@ -4,33 +4,20 @@ import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 export const Advice = () => {
   const [quote, setQuote] = useState<string>("");
-  const [loader, setLoader] = useState(true);
-
-  const Fetcher = useMemo(() => {
-    return quote ? `${quote}` : "no Quote";
-  }, [quote]);
+  const [id, setId] = useState<number | string>("");
 
   const handleFetch = async () => {
-    setLoader(true);
-    const quoteApi = await axios("https://api.adviceslip.com/advice").then(
-      (res) => {
-        setLoader(false);
-        return res.data.slip.advice;
-      }
-    );
-    setQuote(quoteApi);
+    try {
+      const { data } = await axios.get("https://api.adviceslip.com/advice");
+      setQuote(data.slip.advice);
+      setId(data.slip.id);
+    } catch (error) {
+      console.log(error.response);
+    }
   };
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoader(false);
-    }, 5000);
-
     handleFetch();
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [quote]);
+  }, []);
 
   return (
     <div>
@@ -38,22 +25,11 @@ export const Advice = () => {
         <div className="relative  w-11/12 xs:w-10/12 sm:w-7/12  md:w-5/12 text-center rounded shadow-[0_0_0_0] bg-[hsl(217_19%_38%)] p-4">
           <div>
             <p className="capitalize text-[hsl(150_100%_66%)] font-bold text-[.7rem]">
-              advice #117
+              advice #{id}
             </p>
           </div>
           <div className="my-2">
-            {loader ? (
-              <div
-                className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-                role="status"
-              >
-                <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-                  Loading...
-                </span>
-              </div>
-            ) : (
-              <q className="font-bold text-[1rem]">{Fetcher}</q>
-            )}
+            <q className="font-bold text-[1rem]">{quote}</q>
           </div>
           <div className="flex items-center my-[2rem]">
             {/* <span className="w-full border"></span> */}
