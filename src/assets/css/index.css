@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@font-face {
+  font-family: "Manrope";
+  src: url("../Manrope/Manrope-Regular.ttf") format("truetype");
+}
+body {
+  font-family: "Manrope", sans-serif;
+  background-color: hsl(217, 19%, 24%);
+}
+
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+}
+
+.loader__circle {
+  width: 2rem;
+  height: 2rem;
+  border: 0.1rem solid #000;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
