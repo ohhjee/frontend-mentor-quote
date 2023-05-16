@@ -1,6 +1,6 @@
 import deck from "../../assets/image/pattern-divider-desktop.svg";
 import darkGreen from "../../assets/image/icon-dice.svg";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 export const Advice = () => {
   const [quote, setQuote] = useState<string>("");
@@ -12,7 +12,7 @@ export const Advice = () => {
       setQuote(data.slip.advice);
       setId(data.slip.id);
     } catch (error) {
-      console.log(error.response);
+      console.log(error);
     }
   };
   useEffect(() => {
